@@ -1,4 +1,4 @@
-## sbt project compiled with Scala 3
+## Random staff related to zio 2 and scala 3 created while studying the documentation and learning zio
 
 ### Usage
 

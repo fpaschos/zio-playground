@@ -1,6 +1,7 @@
 package dev.fpas.zio
 package trivial
 package state
+package v1
 
 import zio.*
 
@@ -29,6 +30,7 @@ enum Msg:
   *   - Cannot explicit terminate
   *   - Does not handle behaviour errors and errors in general
   *   - Does not support ask
+  *   - Testing
   */
 class QueuedStateHolder(private val queue: Queue[Envelop[Msg]]):
   import Envelop.*
@@ -68,6 +70,7 @@ object QueuedStateHolder:
         }
       )
       .flatMap(state => run(queue, state, behaviour)) // recursive run forever
+end QueuedStateHolder
 
 val behaviour: Behaviour = (msg, state: State) =>
   val res = msg match {
@@ -91,17 +94,18 @@ val behaviour: Behaviour = (msg, state: State) =>
         state
       )
   )
-  //
+
+//
 
 object ExampleUsage extends ZIOAppDefault:
   val program = for
-    _ <- Console.printLine("Starting state holder")
     actor1 <- QueuedStateHolder.create(State("actor1", 0), behaviour)
     actor2 <- QueuedStateHolder.create(State("actor2", 100), behaviour)
     _ <- actor1.inc.repeatN(99)
       <&> actor2.dec.repeatN(99) // Execute in parallel
     _ <- actor1.get
     _ <- actor2.get
+    // _ <- ZIO.never
     _ <- ZIO.sleep(
       2.seconds
     ) // Block main fiber here in order to see ALL the results

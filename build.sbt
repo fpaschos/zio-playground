@@ -11,7 +11,8 @@ lazy val root = project
 
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
-    "dev.zio" %% "zio" % "2.0.1",
+    "dev.zio" %% "zio" % "2.0.2",
+    "dev.zio" %% "zio-streams" % "2.0.2",
     "org.scalameta" %% "munit" % "0.7.29" % Test
   )
 )

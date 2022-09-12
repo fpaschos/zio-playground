@@ -69,7 +69,7 @@ object QueuedStateHolder:
       )
       .flatMap(state => run(queue, state, behaviour)) // recursive run forever
 
-val behaviour: Behaviour = (msg, state) =>
+val behaviour: Behaviour = (msg, state: State) =>
   val res = msg match {
     case Msg.Inc =>
       val s = state.copy(counter = state.counter + 1)

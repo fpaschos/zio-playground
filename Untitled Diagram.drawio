@@ -1,1 +1,66 @@
-<mxfile host="app.diagrams.net" modified="2022-09-12T09:40:02.603Z" agent="5.0 (Macintosh)" version="20.3.0" etag="SmKjf4_FCYJ1OXWPAAvP" type="github"><diagram id="ybJ--qzNaCqBNMqaaPU7">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-09-12T09:53:15.164Z" agent="5.0 (Macintosh)" etag="RCivEI8b2yBeI4VFzDFS" version="20.3.0" type="github">
+  <diagram id="ybJ--qzNaCqBNMqaaPU7" name="Page-1">
+    <mxGraphModel dx="1186" dy="737" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-11" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="414" width="290" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-1" value="Http Proxy (Rust)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="245" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-2" value="Websocket Broker (Rust)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="485" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="nQvdRC7Iyu3AL3G72G-Q-3" target="nQvdRC7Iyu3AL3G72G-Q-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-3" value="Dispatcher (Spring Boot)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="324" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-4" value="DB (Postgres)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="210" y="444" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.411;entryY=1.075;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classicThin;startFill=1;" edge="1" parent="1" source="nQvdRC7Iyu3AL3G72G-Q-6" target="nQvdRC7Iyu3AL3G72G-Q-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-6" value="Tracker (Scala/ Akka)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="324" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="nQvdRC7Iyu3AL3G72G-Q-13" target="nQvdRC7Iyu3AL3G72G-Q-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;startArrow=classicThin;startFill=1;" edge="1" parent="1" source="nQvdRC7Iyu3AL3G72G-Q-13" target="nQvdRC7Iyu3AL3G72G-Q-24">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="304" />
+              <mxPoint x="680" y="304" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-13" value="Geo Analytics (Spring Boot)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="324" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-14" value="DB (Postgres)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="350" y="444" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-22" value="&lt;div&gt;Same db different schemas&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="534" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-24" value="Rabbit MQ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;direction=south;" vertex="1" parent="1">
+          <mxGeometry x="680" y="210" width="40" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="nQvdRC7Iyu3AL3G72G-Q-28" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.198;entryY=1.05;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="nQvdRC7Iyu3AL3G72G-Q-3" target="nQvdRC7Iyu3AL3G72G-Q-24">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="380" as="sourcePoint" />
+            <mxPoint x="730" y="330" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="240" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

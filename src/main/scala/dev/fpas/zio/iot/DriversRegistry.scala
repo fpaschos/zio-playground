@@ -23,7 +23,7 @@ private case class CachedState(
 class CachedDriversRegistry(private val cache: Ref[CachedState])
     extends DriversRegistry:
 
-  override def createDriver(info: DriverInfo): Task[Driver] = ???
+  override def createDriver(info: DriverInfo) = ???
 
   override def updateStatusOf(id: UserId, status: DriverStatus): Task[Unit] =
     ???

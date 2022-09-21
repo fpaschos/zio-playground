@@ -4,8 +4,8 @@ import zio.*
 import zio.test.*
 import zio.test.Assertion.{equalTo}
 
-import dev.fpas.zio.trivial.state.v2.QStateful.Behaviour
-import dev.fpas.zio.trivial.state.v2.QStateful.QStatefulRef
+import dev.fpas.zio.trivial.qstateful.v2.QStateful
+import dev.fpas.zio.trivial.qstateful.v2.QStateful.*
 
 object DoGetProtocol:
   // Messages hierarchy
@@ -36,24 +36,26 @@ object QStatefulSpec extends ZIOSpecDefault:
             command match {
               case Do =>
                 ZIO.sleep(1.minute) *>
-                  Console.printLine("Do after 1m") *>
+                  Console.print(".") *>
                   ZIO.succeed(Confirmation.Accept)
               case Get =>
-                Console.printLine("Get") *>
+                Console.print(".") *>
                   ZIO.succeed(Summary("ok"))
             }
         }
 
         for {
-          ref: QStatefulRef[Command] <- stateless.create
+          ref: QStatefulRef[Command] <- QStateful.create(stateless)
           _ <- (ref ? Do).fork
           _ <- (ref ? Do).fork
           _ <- TestClock.adjust(2.minute)
           summary <- ref ? Get
+          _ <- ref ! Get
+          _ <- ref ! Get
           output <- TestConsole.output
         } yield assert(summary)(equalTo(Summary("ok")))
-          && assert(output(0))(equalTo("Do after 1m\n"))
-          && assert(output(1))(equalTo("Do after 1m\n"))
-          && assert(output(2))(equalTo("Get\n"))
+          && assert(output(0))(equalTo("."))
+          && assert(output(1))(equalTo("."))
+          && assert(output(2))(equalTo("."))
       }
     )

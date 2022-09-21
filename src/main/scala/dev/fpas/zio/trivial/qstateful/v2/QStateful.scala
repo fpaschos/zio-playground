@@ -1,6 +1,6 @@
 package dev.fpas.zio
 package trivial
-package state
+package qstateful
 package v2
 
 // QStateful
@@ -14,6 +14,7 @@ import zio.*
   * receives messages, handles errors and has a well defined protocol
   *
   * Problems with this implementation
+  *   - DOES NOT SUPPORT INTERNAL STATE FOR NOW !!
   *   - Does not handle holder fiber termination
   *   - Cannot explicit terminate
   *   - Termination notification (death watch)
@@ -26,8 +27,8 @@ import zio.*
   */
 object QStateful:
 
-  // TODO ???
-  // def create[M[_]](b: Behaviour[M]) = b.create
+  def create[M[+_]](b: Behaviour[M]): Task[QStatefulRef[M]] =
+    b.create
 
   private[v2] case class PendingMessage[M[_], A](
       m: M[A],
@@ -37,40 +38,46 @@ object QStateful:
   trait Behaviour[-M[+_]]:
     def receive[A](command: M[A]): Task[A]
 
-    // private def process[A]: Task[Unit] = ???
-
-    def create: Task[QStatefulRef[M]] = for {
-      queue <- Queue.unbounded[PendingMessage[M, ?]]
+    private[v2] def create: Task[QStatefulRef[M]] = for {
+      queue <- Queue.unbounded[PendingMessage[M, Any]]
       _ <- run(queue, this).fork
     } yield new InternalRef[M](queue)
 
-    private def run[A](
-        queue: Queue[PendingMessage[M, ?]],
+    private def run(
+        queue: Queue[PendingMessage[M, Any]],
         behaviour: Behaviour[M]
     ): Task[Unit] =
       (for {
         pending <- queue.take
         res <- behaviour.receive(pending.m)
         _ <- pending.p.succeed(res)
-      } yield run[A](queue, behaviour)).flatten
+      } yield run(queue, behaviour)).flatten
 
   end Behaviour
 
   trait QStatefulRef[-M[+_]] {
     def ?[A](ma: M[A]): Task[A]
+    def ![A](ma: M[A]): Task[Unit]
   }
 
   private[v2] final class InternalRef[-M[+_]](
-      queue: Queue[PendingMessage[M, ?]]
+      queue: Queue[PendingMessage[M, Any]]
   ) extends QStatefulRef[M]:
+
+    override def ![A](ma: M[A]): Task[Unit] = tell(ma)
 
     override def ?[A](ma: M[A]): Task[A] = ask(ma)
 
     def ask[A](ma: M[A]): Task[A] = for {
-      p <- Promise.make[Throwable, A]
+      p <- Promise.make[Throwable, Any]
       _ <- queue.offer(PendingMessage(ma, p))
       value <- p.await
-    } yield value
+    } yield value.asInstanceOf[A]
+
+    def tell[A](ma: M[A]): Task[Unit] = for {
+      p <- Promise.make[Throwable, Any]
+      _ <- queue.offer(PendingMessage(ma, p))
+    } yield ()
 
     // def ?[A1 :> A](ma: M[A1]): Task[A1] = ???
 

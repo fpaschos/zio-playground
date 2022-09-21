@@ -1,4 +1,6 @@
-package dev.fpas.zio.trivial.states.v2
+package dev.fpas.zio.trivial
+package qstateful
+package v2
 
 object Experiments:
 
@@ -158,3 +160,13 @@ object Experiments:
       def op[A](list: List[Element[M, ?]]): Option[A] = None
     }
   end CheckWildcards
+
+  // object HigherKindCheck:
+
+  //   trait HK[-M[+_]] {
+  //     def run: Unit
+  //   }
+
+  //   def create[M[_] <: M[A], A <: Any](h: HK[M]) = h.run
+
+  // end HigherKindCheck

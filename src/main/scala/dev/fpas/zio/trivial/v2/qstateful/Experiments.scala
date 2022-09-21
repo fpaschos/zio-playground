@@ -1,6 +1,6 @@
 package dev.fpas.zio.trivial
-package qstateful
 package v2
+package qstateful
 
 object Experiments:
 

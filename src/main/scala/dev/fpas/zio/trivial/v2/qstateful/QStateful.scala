@@ -1,7 +1,7 @@
 package dev.fpas.zio
 package trivial
-package qstateful
 package v2
+package qstateful
 
 // QStateful
 // QStatefulRef
@@ -30,7 +30,7 @@ object QStateful:
   def create[M[+_]](b: Behaviour[M]): Task[QStatefulRef[M]] =
     b.create
 
-  private[v2] case class PendingMessage[M[_], A](
+  private[qstateful] case class PendingMessage[M[_], A](
       m: M[A],
       p: Promise[Throwable, A]
   )
@@ -38,7 +38,7 @@ object QStateful:
   trait Behaviour[-M[+_]]:
     def receive[A](command: M[A]): Task[A]
 
-    private[v2] def create: Task[QStatefulRef[M]] = for {
+    private[qstateful] def create: Task[QStatefulRef[M]] = for {
       queue <- Queue.unbounded[PendingMessage[M, Any]]
       _ <- run(queue, this).fork
     } yield new InternalRef[M](queue)
@@ -60,7 +60,7 @@ object QStateful:
     def ![A](ma: M[A]): Task[Unit]
   }
 
-  private[v2] final class InternalRef[-M[+_]](
+  private[qstateful] final class InternalRef[-M[+_]](
       queue: Queue[PendingMessage[M, Any]]
   ) extends QStatefulRef[M]:
 

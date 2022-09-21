@@ -1,7 +1,7 @@
 package dev.fpas.zio
 package trivial
-package state
 package v1
+package qstateful
 
 import zio.*
 

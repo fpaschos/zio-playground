@@ -1,11 +1,11 @@
-package dev.fpas.zio.trivial.states.v2
+package dev.fpas.zio.trivial.v2.qstatful
 
 import zio.*
 import zio.test.*
 import zio.test.Assertion.{equalTo}
 
-import dev.fpas.zio.trivial.qstateful.v2.QStateful
-import dev.fpas.zio.trivial.qstateful.v2.QStateful.*
+import dev.fpas.zio.trivial.v2.qstateful.QStateful
+import dev.fpas.zio.trivial.v2.qstateful.QStateful.*
 
 object DoGetProtocol:
   // Messages hierarchy

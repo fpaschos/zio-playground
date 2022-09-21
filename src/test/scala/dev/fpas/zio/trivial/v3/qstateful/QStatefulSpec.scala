@@ -6,13 +6,13 @@ import zio.*
 import zio.test.*
 import zio.test.Assertion.{equalTo}
 
-import dev.fpas.zio.trivial.v2.qstateful.QStateful
-import dev.fpas.zio.trivial.v2.qstateful.QStateful.*
+import dev.fpas.zio.trivial.v3.qstateful.QStateful
+import dev.fpas.zio.trivial.v3.qstateful.QStateful.*
 
 object DoGetProtocol:
   // Messages hierarchy
   // As an enum
-  enum Command[+R]:
+  enum Command[+Res]:
     case Get extends Command[Summary]
     case Do extends Command[Confirmation]
 
@@ -24,40 +24,50 @@ object DoGetProtocol:
 
 end DoGetProtocol
 
+object Counter:
+
+  enum Command[+A]:
+    case Inc extends Command[Unit]
+    case Dec extends Command[Unit]
+    case Get extends Command[Summary]
+
+  // Summary response of the counter returns current value and total commands accepted
+  case class Summary(value: Int, totalCommands: Int)
+
+  case class State(value: Int, totalCommands: Int)
+
+  def create: Task[QStatefulRef[Command]] =
+    QStateful.create(new Counter().initialized())
+
+end Counter
+
+class Counter:
+
+  import Counter.*
+  import Counter.Command.*
+  private def initialized(state: State = State(0, 0)): Behavior[Command] =
+    new Behavior[Command] {
+      override def receive[A](command: Command[A]): Task[A] = command match {
+        case Inc => ZIO.succeed(())
+        case Dec => ZIO.succeed(())
+        case Get => ZIO.succeed(Summary(state._1, state._2))
+      }
+    }
+
+end Counter
+
 object QStatefulSpec extends ZIOSpecDefault:
   def spec =
     suite("QStateful v3 basic behaviour")(
       test(
-        "Definition and message processing of stateless behaviour with time delays"
+        "Definition and message processing of a simple Counter"
       ) {
-
-        import DoGetProtocol.*
-        import Command.*
-        val stateless = new Behaviour[Command] {
-          override def receive[A](command: Command[A]): Task[A] =
-            command match {
-              case Do =>
-                ZIO.sleep(1.minute) *>
-                  Console.print(".") *>
-                  ZIO.succeed(Confirmation.Accept)
-              case Get =>
-                Console.print(".") *>
-                  ZIO.succeed(Summary("ok"))
-            }
-        }
+        import Counter.Command.*
 
         for {
-          ref: QStatefulRef[Command] <- QStateful.create(stateless)
-          _ <- (ref ? Do).fork
-          _ <- (ref ? Do).fork
-          _ <- TestClock.adjust(2.minute)
+          ref <- Counter.create
+          _ <- ref ! Inc
           summary <- ref ? Get
-          _ <- ref ! Get
-          _ <- ref ! Get
-          output <- TestConsole.output
-        } yield assert(summary)(equalTo(Summary("ok")))
-          && assert(output(0))(equalTo("."))
-          && assert(output(1))(equalTo("."))
-          && assert(output(2))(equalTo("."))
+        } yield assert(summary)(equalTo(Counter.Summary(1, 1)))
       }
     )

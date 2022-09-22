@@ -33,11 +33,19 @@ class Counter:
   import Counter.Command.*
   private def initialized(state: State = State(0, 0)): Behavior[Command] =
     new Behavior[Command] {
-      override def receive[A](command: Command[A]): Task[A] = command match {
-        case Inc => ZIO.succeed(())
-        case Dec => ZIO.succeed(())
-        case Get => ZIO.succeed(Summary(state._1, state._2))
-      }
+      override def receive[A](
+          command: Command[A]
+      ): Task[(A, Behavior[Command])] =
+        command match {
+          case Inc =>
+            val ns = state.copy(state.value + 1, state.totalCommands + 1)
+            ZIO.succeed(((), initialized(ns)))
+          case Dec =>
+            val ns = state.copy(state.value - 1, state.totalCommands + 1)
+            ZIO.succeed(((), initialized(ns)))
+          case Get =>
+            ZIO.succeed((Summary(state._1, state._2), this))
+        }
     }
 
 end Counter
@@ -55,5 +63,17 @@ object QStatefulSpec extends ZIOSpecDefault:
           _ <- ref ! Inc
           summary <- ref ? Get
         } yield assert(summary)(equalTo(Counter.Summary(1, 1)))
+      },
+      test(
+        "Tell with 10_001 increments and 10_001 decrements"
+      ) {
+        import Counter.Command.*
+        val initial = Counter.State(0, 0)
+        for {
+          ref <- Counter.create(initial)
+          _ <- (ref ? Inc).repeatN(10_000)
+          _ <- (ref ? Dec).repeatN(10_000)
+          summary <- ref ? Get
+        } yield assert(summary)(equalTo(Counter.Summary(0, 20_002)))
       }
     )

@@ -9,21 +9,7 @@ import zio.test.Assertion.{equalTo}
 import dev.fpas.zio.trivial.v3.qstateful.QStateful
 import dev.fpas.zio.trivial.v3.qstateful.QStateful.*
 
-object DoGetProtocol:
-  // Messages hierarchy
-  // As an enum
-  enum Command[+Res]:
-    case Get extends Command[Summary]
-    case Do extends Command[Confirmation]
-
-  enum Confirmation:
-    case Accept extends Confirmation
-    case Reject extends Confirmation
-
-  case class Summary(value: String)
-
-end DoGetProtocol
-
+// Define a simple Counter QStateful
 object Counter:
 
   enum Command[+A]:
@@ -36,8 +22,8 @@ object Counter:
 
   case class State(value: Int, totalCommands: Int)
 
-  def create: Task[QStatefulRef[Command]] =
-    QStateful.create(new Counter().initialized())
+  def create(initial: State = State(0, 0)): Task[QStatefulRef[Command]] =
+    QStateful.create(new Counter().initialized(initial))
 
 end Counter
 
@@ -63,9 +49,9 @@ object QStatefulSpec extends ZIOSpecDefault:
         "Definition and message processing of a simple Counter"
       ) {
         import Counter.Command.*
-
+        val initial = Counter.State(0, 0)
         for {
-          ref <- Counter.create
+          ref <- Counter.create(initial)
           _ <- ref ! Inc
           summary <- ref ? Get
         } yield assert(summary)(equalTo(Counter.Summary(1, 1)))

@@ -20,13 +20,19 @@ lazy val `zio2-experiments` = project
   .settings(name := "zio2-experiments")
   .settings(dependencies)
 
+lazy val `zio2-structure` = project
+  .in(file("./zio2-structure"))
+  .settings(commonSettings)
+  .settings(name := "zio2-structure")
+  .settings(dependencies)
+
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
     "dev.zio" %% "zio" % "2.0.2",
     "dev.zio" %% "zio-streams" % "2.0.2",
     "dev.zio" %% "zio-test" % "2.0.2" % Test,
     "dev.zio" %% "zio-test-sbt" % "2.0.2" % Test,
-    // "dev.zio" %% "zio-test-magnolia" % "2.0.2" % Test
+    "dev.zio" %% "zio-test-magnolia" % "2.0.2" % Test,
     "org.scalameta" %% "munit" % "0.7.29" % Test
   ),
   testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))

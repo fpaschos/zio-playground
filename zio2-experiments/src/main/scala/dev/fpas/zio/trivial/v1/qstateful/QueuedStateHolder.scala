@@ -20,9 +20,9 @@ enum Msg:
   case Dec extends Msg
   case Get extends Msg
 
-/** First attemt to create something like an actor a QueuedStateHolder That is a
-  * service that holds INTERNAL STATE is supported by an async QUEUE receives
-  * messages, handles errors and has a well defined protocol
+/** First attemt to create something like an actor a QueuedStateHolder That is a service that holds
+  * INTERNAL STATE is supported by an async QUEUE receives messages, handles errors and has a well
+  * defined protocol
   *
   * Problems with this implementation
   *   - Not generic enough

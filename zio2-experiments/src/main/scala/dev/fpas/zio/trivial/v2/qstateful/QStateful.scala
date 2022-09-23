@@ -10,8 +10,8 @@ import zio.*
 
 /** Second attemt to create something like an actor a QStateful
   *
-  * That is a service that holds INTERNAL STATE is supported by an async QUEUE
-  * receives messages, handles errors and has a well defined protocol
+  * That is a service that holds INTERNAL STATE is supported by an async QUEUE receives messages,
+  * handles errors and has a well defined protocol
   *
   * Problems with this implementation
   *   - DOES NOT SUPPORT INTERNAL STATE FOR NOW !!

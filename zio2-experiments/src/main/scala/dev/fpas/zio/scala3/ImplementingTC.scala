@@ -1,7 +1,6 @@
 package dev.fpas.zio.scala3
 
-/** [Implementing Type
-  * classes](http://dotty.epfl.ch/docs/reference/contextual/type-classes.html)
+/** [Implementing Type classes](http://dotty.epfl.ch/docs/reference/contextual/type-classes.html)
   */
 object ImplementingTC:
 

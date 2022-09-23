@@ -19,8 +19,7 @@ object DocRepo:
   def get(id: Id) = ZIO.serviceWithZIO[DocRepo](_.get(id))
   def save(d: Doc) = ZIO.serviceWithZIO[DocRepo](_.save(d))
 
-class DocRepoImpl(val metaRepo: MetadataRepo, val storage: BlobStorage)
-    extends DocRepo:
+class DocRepoImpl(val metaRepo: MetadataRepo, val storage: BlobStorage) extends DocRepo:
 
   override def get(id: Id): Task[Doc] =
     for
@@ -30,9 +29,7 @@ class DocRepoImpl(val metaRepo: MetadataRepo, val storage: BlobStorage)
 
   override def save(doc: Doc): Task[Doc] =
     for
-      id <- doc.id.fold(storage.put(doc.content))(id =>
-        storage.put(id, doc.content)
-      )
+      id <- doc.id.fold(storage.put(doc.content))(id => storage.put(id, doc.content))
       // Insert or update using id
       _ <- metaRepo.put(Metadata(id, doc.title))
     yield doc.copy(id = Some(id))

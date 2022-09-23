@@ -20,8 +20,7 @@ private case class CachedState(
 )
 
 // TODO how to pass driver factory???
-class CachedDriversRegistry(private val cache: Ref[CachedState])
-    extends DriversRegistry:
+class CachedDriversRegistry(private val cache: Ref[CachedState]) extends DriversRegistry:
 
   override def createDriver(info: DriverInfo) = ???
 

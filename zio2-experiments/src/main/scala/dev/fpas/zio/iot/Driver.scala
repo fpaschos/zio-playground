@@ -7,8 +7,7 @@ import Domain.*
 /** Questions
   *   - How to implement internal state -> Lock free data structures
   *   - How to implement concurrency / parallelism -> Light weight async
-  *   - How to implement COMPLEX state machine -> Expressive and composable
-  *     (ZIO)
+  *   - How to implement COMPLEX state machine -> Expressive and composable (ZIO)
   *   - Gracefull finalization -> ZIO
   *   - Error Handling Domain & Operational -> ZIO
   */

@@ -43,8 +43,7 @@ object DependentFTExample:
     g(f(x))
 
   // def composeFn: (A => B) -> (B => C) -> A -> C
-  def composeFn[A, B, C]
-      : (f: Fun[A, B]) => (g: Fun[B, C]) => A => f.Eff ?=> g.Eff ?=> C =
+  def composeFn[A, B, C]: (f: Fun[A, B]) => (g: Fun[B, C]) => A => f.Eff ?=> g.Eff ?=> C =
     f => g => x => compose(f)(g)(x)
 
   @main def testDependentFT =
